@@ -2,26 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.heyimhere">
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.SEND_SMS" />
-    <uses-permission android:name="android.permission.RECEIVE_SMS" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="android.permission.READ_SMS" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <!--<uses-permission android:name="android.permission.SEND_RESPOND_VIA_MESSAGE"/>-->
+
     <permission
         android:name="com.example.heyimhere.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
 
     <application
         android:allowBackup="false"
-        android:icon="@mipmap/ic_launcher_new"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_new_round"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:launchMode="singleInstance">
@@ -33,51 +26,6 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".SmsReceiver" android:exported="true" >
-            <intent-filter android:priority="999" >
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
-                <action android:name="android.provider.Telephony.SMS_DELIVER" />
-            </intent-filter>
-        </receiver>
-
-        <receiver android:name=".MMSReceiver" android:exported="true">
-            <intent-filter android:priority="999" >
-                <action android:name="android.provider.Telephony.SMS_DELIVER" />
-                <data android:mimeType="application/vnd.wap.mms-message" />
-            </intent-filter>
-        </receiver>
-
-        <receiver android:name=".TimeRuleManager"
-            android:exported="true"
-            android:permission="android.permission.BROADCAST_WAP_PUSH">
-            <intent-filter android:priority="999" >
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </receiver>
-
-        <service android:name=".LocationRuleManager"
-            android:process=":my_service"
-            android:stopWithTask="false"/>
-
-
-        <activity android:name=".MessageActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.SENDTO" />
-                <data android:scheme="sms" />
-                <data android:scheme="smsto" />
-                <data android:scheme="mms" />
-                <data android:scheme="mmsto" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".NewMessageActivity"></activity>
-        <activity android:name=".ContactsActivity"></activity>
-        <activity android:name=".AddContactActivity"></activity>
-        <activity android:name=".AddDraftActivity"></activity>
-        <activity android:name=".EditContactActivity"></activity>
-        <activity android:name=".AddTimeRuleActivity"></activity>
-        <activity android:name=".AddLocationRuleActivity"></activity>
-        <activity android:name=".MapActivity"></activity>
 
         <receiver android:name=".AlarmReceiver">
             <intent-filter>
@@ -91,6 +39,7 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
     </application>
 
 </manifest>

@@ -11,7 +11,7 @@ public class ViewPagerFragmentAdapter extends FragmentStateAdapter {
 
     private ArrayList<Fragment> arrayList = new ArrayList<>();
 
-    public ViewPagerFragmentAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
+    ViewPagerFragmentAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
     }
 
@@ -21,7 +21,7 @@ public class ViewPagerFragmentAdapter extends FragmentStateAdapter {
         return arrayList.get(position);
     }
 
-    public void addFragment(Fragment fragment) {
+    void addFragment(Fragment fragment) {
         arrayList.add(fragment);
     }
 
@@ -29,4 +29,5 @@ public class ViewPagerFragmentAdapter extends FragmentStateAdapter {
     public int getItemCount() {
         return arrayList.size();
     }
+
 }

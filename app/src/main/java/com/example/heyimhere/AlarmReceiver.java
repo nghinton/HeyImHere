@@ -5,12 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsManager;
-import android.util.Log;
 import android.widget.Toast;
-import com.example.heyimhere.database.Message;
-import com.example.heyimhere.database.MessageDao;
-
-import java.util.Objects;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
