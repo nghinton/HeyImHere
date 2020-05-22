@@ -66,7 +66,7 @@ public class Adapter_List_Pending extends RecyclerView.Adapter<Adapter_List_Pend
         ViewHolder itemHolder;
 
         if (viewType == VIEW_TYPE_NORMAL) {
-            itemView = mInflater.inflate(R.layout.listview_pending, parent, false);
+            itemView = mInflater.inflate(R.layout.listview_drafts, parent, false);
             itemHolder = new DraftsViewHolder(itemView);
         } else {
             itemView = mInflater.inflate(R.layout.listview_empty, parent, false);

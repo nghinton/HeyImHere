@@ -13,12 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
-public class Fragment_Pending extends Fragment {
+public class Fragment_Drafts extends Fragment {
 
     private ViewModel_Messages mMessagesViewModel;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle Sa) {
-        View view = inflater.inflate(R.layout.fragment_pending, container, false);
+        View view = inflater.inflate(R.layout.fragment_drafts, container, false);
 
         // Initialize the list view
         RecyclerView DraftsList = view.findViewById(R.id.DraftList);
