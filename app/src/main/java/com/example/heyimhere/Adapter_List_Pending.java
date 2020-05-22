@@ -8,7 +8,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
-public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHolder> {
+public class Adapter_List_Pending extends RecyclerView.Adapter<Adapter_List_Pending.ViewHolder> {
 
     private static final int VIEW_TYPE_NORMAL = 1;
     private static final int VIEW_TYPE_EMPTY = 0;
@@ -19,14 +19,14 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
         }
     }
 
-    public class ChatViewHolder extends ViewHolder {
-        private final TextView NumberView;
-        private final TextView NameView;
+    public class DraftsViewHolder extends ViewHolder {
+        private final TextView draftMessageView;
+        private final TextView draftNumberView;
 
-        private ChatViewHolder(View itemView) {
+        private DraftsViewHolder(View itemView) {
             super(itemView);
-            NumberView = itemView.findViewById(R.id.txtNumber);
-            NameView = itemView.findViewById(R.id.txtName);
+            draftMessageView = itemView.findViewById(R.id.txtNumber);
+            draftNumberView = itemView.findViewById(R.id.txtName);
         }
 
         public void setListeners(final Message message) {
@@ -37,7 +37,9 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
 
                 }
             });
+
         }
+
     }
 
     public class EmptyViewHolder extends ViewHolder {
@@ -53,7 +55,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
     private List<Message> mDrafts; //data source of the list adapter
     private Context mContext;
 
-    public ChatListAdapter(Context context) {
+    public Adapter_List_Pending(Context context) {
         mInflater = LayoutInflater.from(context);
         mContext = context;
     }
@@ -64,8 +66,8 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
         ViewHolder itemHolder;
 
         if (viewType == VIEW_TYPE_NORMAL) {
-            itemView = mInflater.inflate(R.layout.listview_chat, parent, false);
-            itemHolder = new ChatViewHolder(itemView);
+            itemView = mInflater.inflate(R.layout.listview_pending, parent, false);
+            itemHolder = new DraftsViewHolder(itemView);
         } else {
             itemView = mInflater.inflate(R.layout.listview_empty, parent, false);
             itemHolder = new EmptyViewHolder(itemView);
@@ -81,7 +83,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
 
         if (viewType == VIEW_TYPE_NORMAL) {
             // If everything proceeds normally
-            ChatViewHolder myHolder = (ChatViewHolder) holder;
+            DraftsViewHolder myHolder = (DraftsViewHolder) holder;
             Message current = mDrafts.get(position);
             // Set on click listeners
             myHolder.setListeners(current);
@@ -118,4 +120,3 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
 
 
 }
-

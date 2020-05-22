@@ -8,7 +8,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
-public class DraftsListAdapter extends RecyclerView.Adapter<DraftsListAdapter.ViewHolder> {
+public class Adapter_List_Saved extends RecyclerView.Adapter<Adapter_List_Saved.ViewHolder> {
 
     private static final int VIEW_TYPE_NORMAL = 1;
     private static final int VIEW_TYPE_EMPTY = 0;
@@ -55,7 +55,7 @@ public class DraftsListAdapter extends RecyclerView.Adapter<DraftsListAdapter.Vi
     private List<Message> mDrafts; //data source of the list adapter
     private Context mContext;
 
-    public DraftsListAdapter(Context context) {
+    public Adapter_List_Saved(Context context) {
         mInflater = LayoutInflater.from(context);
         mContext = context;
     }
@@ -66,7 +66,7 @@ public class DraftsListAdapter extends RecyclerView.Adapter<DraftsListAdapter.Vi
         ViewHolder itemHolder;
 
         if (viewType == VIEW_TYPE_NORMAL) {
-            itemView = mInflater.inflate(R.layout.listview_drafts, parent, false);
+            itemView = mInflater.inflate(R.layout.listview_saved, parent, false);
             itemHolder = new DraftsViewHolder(itemView);
         } else {
             itemView = mInflater.inflate(R.layout.listview_empty, parent, false);

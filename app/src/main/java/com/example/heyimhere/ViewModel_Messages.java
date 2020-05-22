@@ -7,13 +7,13 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import java.util.List;
 
-public class MessagesViewModel extends AndroidViewModel {
+public class ViewModel_Messages extends AndroidViewModel {
 
     private DatabaseManager mDatabaseManager;
     private MessageDao mMessageDao;
     private LiveData<List<Message>> mMessageList;
 
-    public MessagesViewModel(Application application) {
+    public ViewModel_Messages(Application application) {
         super(application);
         mDatabaseManager = DatabaseManager.getDatabase(application);
         mMessageDao = mDatabaseManager.mMessageDao();
