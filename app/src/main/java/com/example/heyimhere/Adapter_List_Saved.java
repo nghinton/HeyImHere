@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
@@ -13,6 +14,10 @@ public class Adapter_List_Saved extends RecyclerView.Adapter<Adapter_List_Saved.
     private static final int VIEW_TYPE_NORMAL = 1;
     private static final int VIEW_TYPE_EMPTY = 0;
 
+    public interface OnDeleteClickListener {
+        void OnDeleteClickListener(Message message);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(View itemView) {
             super(itemView);
@@ -20,13 +25,15 @@ public class Adapter_List_Saved extends RecyclerView.Adapter<Adapter_List_Saved.
     }
 
     public class DraftsViewHolder extends ViewHolder {
-        private final TextView draftMessageView;
-        private final TextView draftNumberView;
+        private final TextView BodyView;
+        private final TextView RecieverView;
+        private final ImageButton btnDelete;
 
         private DraftsViewHolder(View itemView) {
             super(itemView);
-            draftMessageView = itemView.findViewById(R.id.txtNumber);
-            draftNumberView = itemView.findViewById(R.id.txtName);
+            BodyView = itemView.findViewById(R.id.txtBody);
+            RecieverView = itemView.findViewById(R.id.txtReciever);
+            btnDelete = itemView.findViewById(R.id.btnDelete);
         }
 
         public void setListeners(final Message message) {
@@ -35,6 +42,15 @@ public class Adapter_List_Saved extends RecyclerView.Adapter<Adapter_List_Saved.
                 @Override
                 public void onClick(View v) {
 
+                }
+            });
+
+            btnDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onDeleteClickListener != null) {
+                        onDeleteClickListener.OnDeleteClickListener(message);
+                    }
                 }
             });
 
@@ -52,12 +68,12 @@ public class Adapter_List_Saved extends RecyclerView.Adapter<Adapter_List_Saved.
     }
 
     private final LayoutInflater mInflater;
-    private List<Message> mDrafts; //data source of the list adapter
-    private Context mContext;
+    private List<Message> mSaved; //data source of the list adapter
+    private Adapter_List_Sent.OnDeleteClickListener onDeleteClickListener;
 
-    public Adapter_List_Saved(Context context) {
+    public Adapter_List_Saved(Context context, Adapter_List_Sent.OnDeleteClickListener listener) {
         mInflater = LayoutInflater.from(context);
-        mContext = context;
+        this.onDeleteClickListener = listener;
     }
 
     @Override
@@ -84,7 +100,9 @@ public class Adapter_List_Saved extends RecyclerView.Adapter<Adapter_List_Saved.
         if (viewType == VIEW_TYPE_NORMAL) {
             // If everything proceeds normally
             DraftsViewHolder myHolder = (DraftsViewHolder) holder;
-            Message current = mDrafts.get(position);
+            Message current = mSaved.get(position);
+            myHolder.RecieverView.setText(current.receiver);
+            myHolder.BodyView.setText(current.body);
             // Set on click listeners
             myHolder.setListeners(current);
         } else if (viewType == VIEW_TYPE_EMPTY){
@@ -95,8 +113,8 @@ public class Adapter_List_Saved extends RecyclerView.Adapter<Adapter_List_Saved.
 
     }
 
-    void setDrafts(List<Message> drafts) {
-        mDrafts = drafts;
+    void setSaved(List<Message> messages) {
+        mSaved = messages;
         notifyDataSetChanged();
     }
 
@@ -104,14 +122,14 @@ public class Adapter_List_Saved extends RecyclerView.Adapter<Adapter_List_Saved.
     // mContacts has not been updated (means initially, it's null, and we can't return null).
     @Override
     public int getItemCount() {
-        if (mDrafts != null)
-            return mDrafts.size() > 0 ? mDrafts.size() : 1;
+        if (mSaved != null)
+            return mSaved.size() > 0 ? mSaved.size() : 1;
         else return 1;
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (mDrafts == null || mDrafts.size() == 0) {
+        if (mSaved == null || mSaved.size() == 0) {
             return VIEW_TYPE_EMPTY;
         } else {
             return VIEW_TYPE_NORMAL;

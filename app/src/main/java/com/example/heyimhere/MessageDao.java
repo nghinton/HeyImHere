@@ -14,8 +14,17 @@ public interface MessageDao {
     @Query("SELECT * FROM messages")
     public LiveData<List<Message>> getAll();
 
-    @Query("SELECT * FROM messages WHERE is_sent == 0 ORDER BY time DESC")
-    public LiveData<List<Message>> getDrafts();
+    // Get messages that have been sent
+    @Query("SELECT * FROM messages WHERE is_sent == 1 AND is_draft == 0 ORDER BY time DESC")
+    public LiveData<List<Message>> getSent();
+
+    // Get messages that have are queued to be sent
+    @Query("SELECT * FROM messages WHERE is_sent == 0 AND is_draft == 0 ORDER BY time DESC")
+    public LiveData<List<Message>> getPending();
+
+    // Get drafts of messages
+    @Query("SELECT * FROM messages WHERE is_sent == 0 AND is_draft == 1 ORDER BY time DESC")
+    public LiveData<List<Message>> getSaved();
 
     @Query("SELECT * FROM messages WHERE id == :ID")
     public Message getMessage(int ID);

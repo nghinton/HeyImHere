@@ -56,6 +56,24 @@ public abstract class DatabaseManager extends RoomDatabase {
                 @Override
                 public void run() {
                     // Populate the database for testing.
+                    MessageDao mMessageDao = INSTANCE.mMessageDao();
+                    for (int i=0; i<25; ++i) {
+                        Message current = new Message("Hi its me", "2058615449", false, false, "1");
+                        int rand = i % 3;
+                        switch(rand) {
+                            case 0:
+                                mMessageDao.insert(current);
+                                break;
+                            case 1:
+                                current.isSent = true;
+                                mMessageDao.insert(current);
+                                break;
+                            case 2:
+                                current.isDraft = true;
+                                mMessageDao.insert(current);
+                                break;
+                        }
+                    }
 
                 }
             });

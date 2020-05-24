@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         // Initialize adapter
         myAdapter = new ViewPagerFragmentAdapter(getSupportFragmentManager(), getLifecycle());
         myAdapter.addFragment(new Fragment_Sent());
-        myAdapter.addFragment(new Fragment_Drafts());
+        myAdapter.addFragment(new Fragment_Pending());
         myAdapter.addFragment(new Fragment_Saved());
 
         // Set Orientation
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             public void onConfigureTab(TabLayout.Tab tab, int position) {
                 // position of the current tab and that tab
                 if (position == 0) tab.setText("SENT");
-                if (position == 1) tab.setText("DRAFTS");
+                if (position == 1) tab.setText("PENDING");
                 if (position == 2) tab.setText("SAVED");
             }
         });

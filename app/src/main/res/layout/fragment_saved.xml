@@ -11,14 +11,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/DraftList"
-        app:layout_constraintEnd_toStartOf="@id/btnCreateNewDraft"
+        app:layout_constraintEnd_toStartOf="@id/btnCreateMessage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
     </SearchView>
 
     <ImageButton
-        android:id="@+id/btnCreateNewDraft"
+        android:id="@+id/btnCreateMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"

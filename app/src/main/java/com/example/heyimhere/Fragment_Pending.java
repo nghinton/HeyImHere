@@ -13,16 +13,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
-public class Fragment_Drafts extends Fragment {
+public class Fragment_Pending extends Fragment implements Adapter_List_Sent.OnDeleteClickListener {
 
     private ViewModel_Messages mMessagesViewModel;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle Sa) {
-        View view = inflater.inflate(R.layout.fragment_drafts, container, false);
+        View view = inflater.inflate(R.layout.fragment_pending, container, false);
 
         // Initialize the list view
         RecyclerView DraftsList = view.findViewById(R.id.DraftList);
-        final Adapter_List_Pending adapter = new Adapter_List_Pending(getActivity());
+        final Adapter_List_Pending adapter = new Adapter_List_Pending(getActivity(), this);
         DraftsList.setAdapter(adapter);
         DraftsList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -32,15 +32,20 @@ public class Fragment_Drafts extends Fragment {
         // Add an observer on the LiveData returned by getAllContacts.
         // The onChanged() method fires when the observed data changes and the activity is
         // in the foreground.
-        mMessagesViewModel.getDrafts().observe(getViewLifecycleOwner(), new Observer<List<Message>>() {
+        mMessagesViewModel.getPending().observe(getViewLifecycleOwner(), new Observer<List<Message>>() {
                 @Override
                 public void onChanged(@Nullable final List<Message> messages) {
                     // Update the cached copy of the words in the adapter.
-                    adapter.setDrafts(messages);
+                    adapter.setPending(messages);
                 }
         });
 
         return view;
+    }
+
+    @Override
+    public void OnDeleteClickListener(Message message) {
+        mMessagesViewModel.delete(message);
     }
 
 }

@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
-public class Fragment_Saved extends Fragment {
+public class Fragment_Saved extends Fragment implements Adapter_List_Sent.OnDeleteClickListener {
 
     private ViewModel_Messages mMessagesViewModel;
 
@@ -22,7 +22,7 @@ public class Fragment_Saved extends Fragment {
 
         // Initialize the list view
         RecyclerView DraftsList = view.findViewById(R.id.DraftList);
-        final Adapter_List_Saved adapter = new Adapter_List_Saved(getActivity());
+        final Adapter_List_Saved adapter = new Adapter_List_Saved(getActivity(), this);
         DraftsList.setAdapter(adapter);
         DraftsList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -32,15 +32,20 @@ public class Fragment_Saved extends Fragment {
         // Add an observer on the LiveData returned by getAllContacts.
         // The onChanged() method fires when the observed data changes and the activity is
         // in the foreground.
-        mMessagesViewModel.getDrafts().observe(getViewLifecycleOwner(), new Observer<List<Message>>() {
+        mMessagesViewModel.getSaved().observe(getViewLifecycleOwner(), new Observer<List<Message>>() {
             @Override
             public void onChanged(@Nullable final List<Message> messages) {
                 // Update the cached copy of the words in the adapter.
-                adapter.setDrafts(messages);
+                adapter.setSaved(messages);
             }
         });
 
         return view;
+    }
+
+    @Override
+    public void OnDeleteClickListener(Message message) {
+        mMessagesViewModel.delete(message);
     }
 
 }

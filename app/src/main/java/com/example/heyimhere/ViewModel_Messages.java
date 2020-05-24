@@ -17,10 +17,20 @@ public class ViewModel_Messages extends AndroidViewModel {
         super(application);
         mDatabaseManager = DatabaseManager.getDatabase(application);
         mMessageDao = mDatabaseManager.mMessageDao();
-        mMessageList = mMessageDao.getDrafts();
     }
 
-    LiveData<List<Message>> getDrafts () {
+    LiveData<List<Message>> getSent () {
+        mMessageList = mMessageDao.getSent();
+        return mMessageList;
+    }
+
+    LiveData<List<Message>> getPending () {
+        mMessageList = mMessageDao.getPending();
+        return mMessageList;
+    }
+
+    LiveData<List<Message>> getSaved () {
+        mMessageList = mMessageDao.getSaved();
         return mMessageList;
     }
 

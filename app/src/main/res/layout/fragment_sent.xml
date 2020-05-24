@@ -11,41 +11,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/ContactList"
-        app:layout_constraintEnd_toStartOf="@id/btnContact"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
     </SearchView>
-
-    <ImageButton
-        android:id="@+id/btnContact"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:backgroundTint="#303030"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?attr/selectableItemBackground"
-        app:layout_constraintBottom_toTopOf="@id/ContactList"
-        app:layout_constraintEnd_toStartOf="@id/btnCreateNewMessage"
-        app:layout_constraintStart_toEndOf="@id/SearchContact"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_contact" />
-
-    <ImageButton
-        android:id="@+id/btnCreateNewMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:backgroundTint="#303030"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?attr/selectableItemBackground"
-        app:layout_constraintBottom_toTopOf="@id/ContactList"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btnContact"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_message" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ContactList"
