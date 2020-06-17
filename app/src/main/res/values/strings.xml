@@ -12,4 +12,10 @@
     <string name="txtMessage">Message: </string>
     <string name="txtNewMessage">New Message Creation</string>
     <string name="btnCreateMessgae">Create</string>
+    <string name="btnPickTime">Select Time</string>
+    <string name="btnPickDate">Select Date</string>
+    <string name="txtTime">No Time Selected</string>
+    <string name="txtDate">No Date Selected</string>
+    <string name="txtSendAt">Send At:</string>
+    <string name="txtSentAt">Sent At:</string>
 </resources>

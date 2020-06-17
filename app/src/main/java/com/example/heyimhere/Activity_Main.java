@@ -12,12 +12,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 import com.google.android.material.tabs.TabLayout;
+import android.widget.Toast;
 import com.google.android.material.tabs.TabLayoutMediator;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class Activity_Main extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager2 viewPager;

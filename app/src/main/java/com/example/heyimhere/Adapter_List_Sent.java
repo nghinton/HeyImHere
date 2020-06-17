@@ -28,12 +28,14 @@ public class Adapter_List_Sent extends RecyclerView.Adapter<Adapter_List_Sent.Vi
     public class SentViewHolder extends ViewHolder {
         private final TextView BodyView;
         private final TextView RecieverView;
+        private final TextView TimeView;
         private final ImageButton btnDelete;
 
         private SentViewHolder(View itemView) {
             super(itemView);
             BodyView = itemView.findViewById(R.id.txtBody);
             RecieverView = itemView.findViewById(R.id.txtReciever);
+            TimeView = itemView.findViewById(R.id.txtTime);
             btnDelete = itemView.findViewById(R.id.btnDelete);
         }
 
@@ -103,6 +105,7 @@ public class Adapter_List_Sent extends RecyclerView.Adapter<Adapter_List_Sent.Vi
             Message current = mSent.get(position);
             myHolder.RecieverView.setText(current.receiver);
             myHolder.BodyView.setText(current.body);
+            myHolder.TimeView.setText(current.time);
             // Set on click listeners
             myHolder.setListeners(current);
         } else if (viewType == VIEW_TYPE_EMPTY){
