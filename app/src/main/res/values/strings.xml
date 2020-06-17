@@ -10,4 +10,6 @@
     <string name="btnDelete">Delete</string>
     <string name="txtTo">"To: "</string>
     <string name="txtMessage">Message: </string>
+    <string name="txtNewMessage">New Message Creation</string>
+    <string name="btnCreateMessgae">Create</string>
 </resources>

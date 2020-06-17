@@ -26,6 +26,7 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".Activity_NewMessage"/>
 
         <receiver android:name=".AlarmReceiver">
             <intent-filter>

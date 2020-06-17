@@ -7,14 +7,13 @@
     tools:context=".MainActivity">
 
     <SearchView
-        android:id="@+id/SearchContact"
+        android:id="@+id/SearchSent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/ContactList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
     </SearchView>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -24,7 +23,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/SearchContact">
+        app:layout_constraintTop_toBottomOf="@id/SearchSent">
 
     </androidx.recyclerview.widget.RecyclerView>
 

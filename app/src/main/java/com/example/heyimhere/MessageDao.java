@@ -26,25 +26,28 @@ public interface MessageDao {
     @Query("SELECT * FROM messages WHERE is_sent == 0 AND is_draft == 1 ORDER BY time DESC")
     public LiveData<List<Message>> getSaved();
 
+    @Query("SELECT * FROM messages WHERE is_sent == 1 AND is_draft == 0 AND (body LIKE :query or receiver LIKE :query)")
+    public LiveData<List<Message>> searchSent(String query);
+
+    @Query("SELECT * FROM messages WHERE is_sent == 0 AND is_draft == 0 AND (body LIKE :query or receiver LIKE :query)")
+    public LiveData<List<Message>> searchPending(String query);
+
+    @Query("SELECT * FROM messages WHERE is_sent == 0 AND is_draft == 1 AND (body LIKE :query or receiver LIKE :query)")
+    public LiveData<List<Message>> searchSaved(String query);
+
     @Query("SELECT * FROM messages WHERE id == :ID")
     public Message getMessage(int ID);
 
     @Query("SELECT COUNT(id) FROM messages")
     public int getCount();
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public long insert(Message message);
+
     @Update
     public void update(Message messages);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insert(Message message);
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insert(List<Message> messages);
-
     @Delete
     public void delete(Message messages);
-
-    @Delete
-    public void delete(List<Message> messages);
 
 }

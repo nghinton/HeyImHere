@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -38,6 +39,21 @@ public class Fragment_Sent extends Fragment implements Adapter_List_Sent.OnDelet
             public void onChanged(@Nullable final List<Message> messages) {
                 // Update the cached copy of the words in the adapter.
                 adapter.setSent(messages);
+            }
+        });
+
+        //Initialize Search View
+        SearchView btnCreateNew = view.findViewById(R.id.SearchSent);
+        btnCreateNew.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mMessagesViewModel.searchSent(newText);
+                return false;
             }
         });
 

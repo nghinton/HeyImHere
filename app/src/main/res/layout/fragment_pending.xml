@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
     <SearchView
-        android:id="@+id/SearchDrafts"
+        android:id="@+id/SearchPending"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/DraftList"
@@ -30,9 +30,9 @@
         android:tint="#B6B3B3"
         app:layout_constraintBottom_toTopOf="@id/DraftList"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/SearchDrafts"
+        app:layout_constraintStart_toEndOf="@id/SearchPending"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_input_add"  />
+        app:srcCompat="@android:drawable/ic_input_add" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/DraftList"
@@ -41,7 +41,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/SearchDrafts">
+        app:layout_constraintTop_toBottomOf="@id/SearchPending">
 
     </androidx.recyclerview.widget.RecyclerView>
 

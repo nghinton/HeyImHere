@@ -31,6 +31,7 @@ public abstract class DatabaseManager extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context,
                             DatabaseManager.class, "Database")
+                            .allowMainThreadQueries()
                             .addCallback(sRoomDatabaseCallback)
                             .build();
                 }
@@ -56,7 +57,7 @@ public abstract class DatabaseManager extends RoomDatabase {
                 @Override
                 public void run() {
                     // Populate the database for testing.
-                    MessageDao mMessageDao = INSTANCE.mMessageDao();
+ /*                   MessageDao mMessageDao = INSTANCE.mMessageDao();
                     for (int i=0; i<25; ++i) {
                         Message current = new Message("Hi its me", "2058615449", false, false, "1");
                         int rand = i % 3;
@@ -74,7 +75,7 @@ public abstract class DatabaseManager extends RoomDatabase {
                                 break;
                         }
                     }
-
+*/
                 }
             });
         }

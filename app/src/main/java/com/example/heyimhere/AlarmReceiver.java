@@ -14,14 +14,16 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         // Get message dao to interact with the database
         DatabaseManager mDatabaseManager;
-        mDatabaseManager = DatabaseManager.getDatabase(context.getApplicationContext());
         MessageDao mMessageDao;
+        mDatabaseManager = DatabaseManager.getDatabase(context.getApplicationContext());
         mMessageDao = mDatabaseManager.mMessageDao();
 
+        // Grab the bundle and the message id in it
         Bundle intentExtras = intent.getExtras();
+        assert intentExtras != null;
+        int ID = (int) intentExtras.getLong("MESSAGE_ID");
 
         //Retrieve message from database
-        int ID = (int) intentExtras.getLong("DraftID");
         Message message = mMessageDao.getMessage(ID);
 
         // Send the message
