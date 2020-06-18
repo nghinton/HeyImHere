@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
@@ -30,8 +34,11 @@ public class AlarmReceiver extends BroadcastReceiver {
         SmsManager sms = SmsManager.getDefault();
         sms.sendTextMessage(message.receiver, null, message.body, null, null);
 
-        // Update the message field "is_sent"
+        // Update the message field "is_sent" and "time"
         message.isSent = true;
+        Calendar calendar = Calendar.getInstance();
+        String formattedTime = Utility.formatTime(calendar);
+        message.time = formattedTime;
         mMessageDao.update(message);
 
         // Toast for user verification

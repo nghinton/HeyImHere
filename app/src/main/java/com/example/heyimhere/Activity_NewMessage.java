@@ -16,18 +16,20 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
+
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 public class Activity_NewMessage extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     ViewModel_Messages mMessageViewModel;
 
-    // Date and Time variable for easy acccess
-    private long dateStamp = 0;
-    private long timeStamp = 0;
+    // Calendar variable for easy access
+    Calendar calendar = Calendar.getInstance();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,28 +79,52 @@ public class Activity_NewMessage extends AppCompatActivity implements DatePicker
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 // Grab the edit text entries
                 String message = messageField.getText().toString();
                 String receiver = receiverField.getText().toString();
 
                 // Add the time and date stamps to get the time in milliseconds
-                long time = timeStamp + dateStamp;
+                long time = calendar.getTimeInMillis();
 
-                // Fire the function to handle message creation
-                createNewMessage(message, receiver, time);
+                // Validate the phone number
+                boolean isNumberValid = Utility.validatePhoneNumber(receiver);
+                // Validate the message
+                boolean isMessageValid = Utility.validateMessage(message);
+                // Validate the time
+                boolean isTimeValid = Utility.validateTime(time);
 
-                // Close the activity
-                finish();
+                // Check that user input is at least mildly correct
+                if(isNumberValid && isMessageValid && isTimeValid) {
+                    // Fire the function to handle message creation
+                    // I can grab the calender since its global so only need to pass in the message and receiver
+                    createNewMessage(message, receiver);
+
+                    // Close the activity
+                    finish();
+                } else {
+                    // Throw a toast to let the user know they fucked up
+                    if (!isMessageValid) {
+                        Toast.makeText(v.getContext(), "Cannot send empty message", Toast.LENGTH_SHORT).show();
+                    }
+                    if (!isNumberValid) {
+                        Toast.makeText(v.getContext(), "Phone number is invalid", Toast.LENGTH_LONG).show();
+                    }
+                    if (!isTimeValid) {
+                        Toast.makeText(v.getContext(), "Live in the future, not the past", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                // Let the activity keep going
             }
         });
 
     }
 
-    public void createNewMessage(String message, String receiver, long time) {
+    public void createNewMessage(String message, String receiver) {
         // Format the time into a string and create the new message
-        Date sendAt = new Date(time);
-        DateFormat df = new SimpleDateFormat("dd:MM:yyyy - HH:mm:ss");
-        Message newMessage = new Message(message, receiver, false, false, df.format(sendAt));
+        String formattedTime = Utility.formatTime(calendar);
+        Message newMessage = new Message(message, receiver, false, false, formattedTime);
 
         // Set the intents for the alarm and insert the message, the inset will return a row ID
         Intent intent = new Intent(this, AlarmReceiver.class);
@@ -107,7 +133,7 @@ public class Activity_NewMessage extends AppCompatActivity implements DatePicker
 
         // Set the alarm for the new message
         AlarmManager mAlarmManager = (AlarmManager)this.getSystemService(ALARM_SERVICE);
-        mAlarmManager.set(AlarmManager.RTC_WAKEUP, time, pendingIntent);
+        mAlarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
         // Toast for user conformation
         Toast.makeText(this, "Message created!", Toast.LENGTH_SHORT).show();
@@ -116,19 +142,11 @@ public class Activity_NewMessage extends AppCompatActivity implements DatePicker
     // Date picker listener
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        // Grab the date
-        Calendar calendar = Calendar.getInstance();
+        // Grab and set the date
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
         String currentDate = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
-
-        // Set the date stamp
-       dateStamp = calendar.getTimeInMillis();
 
         // Grab the txt box and display the dat
         TextView txtDate = findViewById(R.id.txtDate);
@@ -138,19 +156,10 @@ public class Activity_NewMessage extends AppCompatActivity implements DatePicker
     // Time picker listener
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        // Grab and format date
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, 0);
-        calendar.set(Calendar.MONTH, 0);
-        calendar.set(Calendar.DAY_OF_MONTH, 0);
+        // Grab and set the time
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         calendar.set(Calendar.MINUTE, minute);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        String currentTime = DateFormat.getTimeInstance(DateFormat.LONG).format(calendar.getTime());
-
-        // Set the time stamp
-        timeStamp = calendar.getTimeInMillis();
+        String currentTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(calendar.getTime());
 
         // Grab the txt box and display time
         TextView txtTime = findViewById(R.id.txtTime);
