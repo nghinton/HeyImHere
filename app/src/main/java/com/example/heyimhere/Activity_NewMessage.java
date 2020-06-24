@@ -122,12 +122,12 @@ public class Activity_NewMessage extends AppCompatActivity implements DatePicker
         Message newMessage = new Message(message, receiver, false, false, formattedTime);
 
         // Set the intents for the alarm and insert the message, the inset will return a row ID
-        Intent intent = new Intent(this, AlarmReceiver.class);
+        Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
         intent.putExtra("MESSAGE_ID", mMessageViewModel.insert(newMessage));
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, 0);
 
         // Set the alarm for the new message
-        AlarmManager mAlarmManager = (AlarmManager)this.getSystemService(ALARM_SERVICE);
+        AlarmManager mAlarmManager = (AlarmManager)getApplicationContext().getSystemService(ALARM_SERVICE);
         mAlarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
         // Toast for user conformation

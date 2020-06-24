@@ -53,7 +53,7 @@ public class Activity_EditPending extends AppCompatActivity implements DatePicke
             receiverField.setText(mMessage.receiver);
             messageField.setText(mMessage.body);
             // Create a simple date format to parse the time string and set the calendar
-            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa mm/dd/yy");
+            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa MM/dd/yy");
             try {
                 calendar.setTime(sdf.parse(mMessage.time));
             } catch (ParseException e) {
@@ -151,6 +151,21 @@ public class Activity_EditPending extends AppCompatActivity implements DatePicke
 
         // Update the message
         mMessageViewModel.update(mMessage);
+
+        // Recreate the intent for the old alarm
+        Intent intentOld = new Intent(getApplicationContext(), AlarmReceiver.class);
+        intentOld.putExtra("MESSAGE_ID", mMessage.id);
+        PendingIntent oldAlarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intentOld, 0);
+
+        // Create the intent for the new alarm
+        Intent intentNew = new Intent(getApplicationContext(), AlarmReceiver.class);
+        intentNew.putExtra("MESSAGE_ID", mMessage.id);
+        PendingIntent newAlarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intentNew, 0);
+
+        // Use alarm manager to cancel the old alarm and set the new one
+        AlarmManager mAlarmManager = (AlarmManager)getApplicationContext().getSystemService(ALARM_SERVICE);
+        mAlarmManager.cancel(oldAlarmIntent);
+        mAlarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), newAlarmIntent);
 
         // Toast for user conformation
         Toast.makeText(this, "Message updated!", Toast.LENGTH_SHORT).show();
