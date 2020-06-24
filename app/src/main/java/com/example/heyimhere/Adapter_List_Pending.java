@@ -1,6 +1,7 @@
 package com.example.heyimhere;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +45,9 @@ public class Adapter_List_Pending extends RecyclerView.Adapter<Adapter_List_Pend
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Intent intent = new Intent(v.getContext(), Activity_EditPending.class);
+                    intent.putExtra("messageID", message.id);
+                    v.getContext().startActivity(intent);
                 }
             });
 

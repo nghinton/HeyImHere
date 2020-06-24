@@ -18,4 +18,6 @@
     <string name="txtDate">No Date Selected</string>
     <string name="txtSendAt">Send At:</string>
     <string name="txtSentAt">Sent At:</string>
+    <string name="txtEditMessage">Edit Message</string>
+    <string name="btnUpdate">Update</string>
 </resources>

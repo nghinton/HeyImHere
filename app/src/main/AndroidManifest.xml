@@ -27,6 +27,7 @@
         </activity>
 
         <activity android:name=".Activity_NewMessage"/>
+        <activity android:name=".Activity_EditPending"/>
 
         <receiver android:name=".AlarmReceiver">
             <intent-filter>

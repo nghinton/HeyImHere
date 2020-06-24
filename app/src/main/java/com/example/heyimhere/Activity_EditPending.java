@@ -13,22 +13,27 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
+
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class Activity_NewMessage extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class Activity_EditPending extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     ViewModel_Messages mMessageViewModel;
+    Message mMessage;
 
     // Calendar variable for easy access
     Calendar calendar = Calendar.getInstance();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_newmessage);
+        setContentView(R.layout.activity_editmessage);
 
         // Get a new or existing ViewModel from the ViewModelProvider.
         mMessageViewModel = new ViewModelProvider(this).get(ViewModel_Messages.class);
@@ -36,6 +41,28 @@ public class Activity_NewMessage extends AppCompatActivity implements DatePicker
         // Grab edit text boxes
         final EditText receiverField = findViewById(R.id.etxtTo);
         final EditText messageField = findViewById(R.id.etxtMessage);
+        TextView txtDate = findViewById(R.id.txtDate);
+        TextView txtTime = findViewById(R.id.txtTime);
+
+        // Get messageID from the bundle then retrieve the message
+        // and set the text boxes
+        final Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            mMessage = mMessageViewModel.getMessage(bundle.getInt("messageID"));
+            // Set the message and receiver text boxes
+            receiverField.setText(mMessage.receiver);
+            messageField.setText(mMessage.body);
+            // Create a simple date format to parse the time string and set the calendar
+            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aa mm/dd/yy");
+            try {
+                calendar.setTime(sdf.parse(mMessage.time));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            // Set the time and date text boxes
+            txtDate.setText(DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime()));
+            txtTime.setText(DateFormat.getTimeInstance(DateFormat.SHORT).format(calendar.getTime()));
+        }
 
         // Pick Time Button Setup
         Button btnTime = findViewById(R.id.btnPickTime);
@@ -90,10 +117,10 @@ public class Activity_NewMessage extends AppCompatActivity implements DatePicker
                 boolean isTimeValid = Utility.validateTime(time);
 
                 // Check that user input is at least mildly correct
-                if(isNumberValid && isMessageValid && isTimeValid) {
+                if (isNumberValid && isMessageValid && isTimeValid) {
                     // Fire the function to handle message creation
                     // I can grab the calender since its global so only need to pass in the message and receiver
-                    createNewMessage(message, receiver);
+                    updateMessage(message, receiver);
 
                     // Close the activity
                     finish();
@@ -113,25 +140,20 @@ public class Activity_NewMessage extends AppCompatActivity implements DatePicker
                 // Let the activity keep going
             }
         });
-
     }
 
-    public void createNewMessage(String message, String receiver) {
-        // Format the time into a string and create the new message
+    public void updateMessage(String message, String receiver) {
+        // Format the time into a string and update all fields
         String formattedTime = Utility.formatTime(calendar);
-        Message newMessage = new Message(message, receiver, false, false, formattedTime);
+        mMessage.receiver = receiver;
+        mMessage.body = message;
+        mMessage.time = formattedTime;
 
-        // Set the intents for the alarm and insert the message, the inset will return a row ID
-        Intent intent = new Intent(this, AlarmReceiver.class);
-        intent.putExtra("MESSAGE_ID", mMessageViewModel.insert(newMessage));
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-
-        // Set the alarm for the new message
-        AlarmManager mAlarmManager = (AlarmManager)this.getSystemService(ALARM_SERVICE);
-        mAlarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        // Update the message
+        mMessageViewModel.update(mMessage);
 
         // Toast for user conformation
-        Toast.makeText(this, "Message created!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Message updated!", Toast.LENGTH_SHORT).show();
     }
 
     // Date picker listener
@@ -161,6 +183,7 @@ public class Activity_NewMessage extends AppCompatActivity implements DatePicker
         txtTime.setText(currentTime);
 
     }
+
 
 
 }

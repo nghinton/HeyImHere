@@ -73,6 +73,11 @@ public class ViewModel_Messages extends AndroidViewModel {
         return mSavedList;
     }
 
+    Message getMessage(int id) {
+        Message message = mMessageDao.getMessage(id);
+        return message;
+    }
+
     long insert(final Message message) {
         long id = mMessageDao.insert(message);
         return id;
@@ -94,10 +99,6 @@ public class ViewModel_Messages extends AndroidViewModel {
                 mMessageDao.update(message);
             }
         });
-    }
-
-    int getCount() {
-        return mMessageDao.getCount();
     }
 
 }
