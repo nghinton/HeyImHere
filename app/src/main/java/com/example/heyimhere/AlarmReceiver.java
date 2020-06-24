@@ -17,10 +17,8 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         // Get message dao to interact with the database
-        DatabaseManager mDatabaseManager;
-        MessageDao mMessageDao;
-        mDatabaseManager = DatabaseManager.getDatabase(context.getApplicationContext());
-        mMessageDao = mDatabaseManager.mMessageDao();
+        DatabaseManager mDatabaseManager = DatabaseManager.getDatabase(context.getApplicationContext());
+        MessageDao mMessageDao = mDatabaseManager.mMessageDao();
 
         // Grab the bundle and the message id in it
         Bundle intentExtras = intent.getExtras();
@@ -34,7 +32,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         SmsManager sms = SmsManager.getDefault();
         sms.sendTextMessage(message.receiver, null, message.body, null, null);
 
-        // Update the message field "is_sent" and "time"
+        // Update the message fields "is_sent" and "time"
         message.isSent = true;
         Calendar calendar = Calendar.getInstance();
         String formattedTime = Utility.formatTime(calendar);
@@ -42,7 +40,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         mMessageDao.update(message);
 
         // Toast for user verification
-        Toast.makeText(context, "Draft Sent", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Message Sent", Toast.LENGTH_SHORT).show();
 
     }
 

@@ -1,9 +1,11 @@
 package com.example.heyimhere;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.SearchView;
 
 import androidx.annotation.Nullable;
@@ -42,7 +44,14 @@ public class Fragment_Saved extends Fragment implements Adapter_List_Sent.OnDele
         });
 
         // Initialize Create New Draft Button
-
+        ImageButton btnCreateNewDraft = view.findViewById(R.id.btnCreateMessage);
+        btnCreateNewDraft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent newIntent = new Intent(getActivity(), Activity_NewDraft.class);
+                startActivity(newIntent);
+            }
+        });
 
         //Initialize Search View
         SearchView btnCreateNew = view.findViewById(R.id.SearchSaved);

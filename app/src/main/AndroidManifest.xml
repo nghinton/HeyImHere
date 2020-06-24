@@ -28,6 +28,8 @@
 
         <activity android:name=".Activity_NewMessage"/>
         <activity android:name=".Activity_EditPending"/>
+        <activity android:name=".Activity_NewDraft"/>
+        <activity android:name=".Activity_EditSaved"/>
 
         <receiver android:name=".AlarmReceiver">
             <intent-filter>

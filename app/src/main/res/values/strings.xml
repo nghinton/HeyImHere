@@ -20,4 +20,6 @@
     <string name="txtSentAt">Sent At:</string>
     <string name="txtEditMessage">Edit Message</string>
     <string name="btnUpdate">Update</string>
+    <string name="txtNewDraft">New Draft Creation</string>
+    <string name="txtEditDraft">Create Message w/Draft</string>
 </resources>

@@ -26,13 +26,13 @@ public interface MessageDao {
     @Query("SELECT * FROM messages WHERE is_sent == 0 AND is_draft == 1 ORDER BY time DESC")
     public LiveData<List<Message>> getSaved();
 
-    @Query("SELECT * FROM messages WHERE is_sent == 1 AND is_draft == 0 AND (body LIKE :query or receiver LIKE :query)")
+    @Query("SELECT * FROM messages WHERE is_sent == 1 AND is_draft == 0 AND (body LIKE :query or receiver LIKE :query) ORDER BY id DESC")
     public LiveData<List<Message>> searchSent(String query);
 
-    @Query("SELECT * FROM messages WHERE is_sent == 0 AND is_draft == 0 AND (body LIKE :query or receiver LIKE :query)")
+    @Query("SELECT * FROM messages WHERE is_sent == 0 AND is_draft == 0 AND (body LIKE :query or receiver LIKE :query) ORDER BY id DESC")
     public LiveData<List<Message>> searchPending(String query);
 
-    @Query("SELECT * FROM messages WHERE is_sent == 0 AND is_draft == 1 AND (body LIKE :query or receiver LIKE :query)")
+    @Query("SELECT * FROM messages WHERE is_sent == 0 AND is_draft == 1 AND (body LIKE :query or receiver LIKE :query) ORDER BY id DESC")
     public LiveData<List<Message>> searchSaved(String query);
 
     @Query("SELECT * FROM messages WHERE id == :ID")
