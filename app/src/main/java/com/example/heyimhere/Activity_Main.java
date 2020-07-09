@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
@@ -85,14 +87,9 @@ public class Activity_Main extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.menuitem_feedback:
-                // Finish the settings activity later
-                Toast.makeText(this, getString(R.string.menu_feedback),
-                        Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.menuitem_about:
-                // Finish the settings activity later
-                Toast.makeText(this, getString(R.string.menu_about),
-                        Toast.LENGTH_SHORT).show();
+                // Direct feedback to my website
+                Intent feedbackIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("www.nghinton.github.io/Portfolio-Website/"));
+                startActivity(feedbackIntent);
                 return true;
             case R.id.menuitem_quit:
                 // close the activity
@@ -102,7 +99,7 @@ public class Activity_Main extends AppCompatActivity {
         return false;
     }
 
-    // Permission warnings if we didnt get any
+    // Permission warnings if we didn't get any
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
